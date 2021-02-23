@@ -1,6 +1,9 @@
-# Início de sessão (caso esses pacotes não estejam instalados usar a função install.packages() para instalar)
-library(stringr)
+# Início de sessão (caso esses pacotes não estejam instalados usar a função install.packages(xx) para instalar)
 library(twitteR)
+library(rtweet)
+
+
+#pacotes não essenciais no momento mas que são usados na manipulação de dados depois da coleta
 library(purrr)
 library(tidytext)
 library(dplyr)
@@ -9,7 +12,6 @@ library(lubridate)
 library(scales)
 library(broom)
 library(ggplot2)
-library(rtweet)
 library(rvest)
 
 # Aqui vão as credenciais de acesso e autorização - substituir os xxxx pelos dados específicos
