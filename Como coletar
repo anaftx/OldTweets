@@ -1,4 +1,4 @@
-# Início de sessão 
+# Início de sessão (caso esses pacotes não estejam instalados usar a função install.packages() para instalar)
 library(stringr)
 library(twitteR)
 library(purrr)
