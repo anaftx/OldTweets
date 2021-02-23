@@ -1,0 +1,62 @@
+# Início de sessão 
+library(stringr)
+library(twitteR)
+library(purrr)
+library(tidytext)
+library(dplyr)
+library(tidyr)
+library(lubridate)
+library(scales)
+library(broom)
+library(ggplot2)
+library(rtweet)
+library(rvest)
+
+# Aqui vão as credenciais de acesso e autorização - substituir os xxxx pelos dados específicos
+consumerKey = "xxxxx"  
+consumerSecret = "xxxxx"
+accessToken = "xxxxx"
+accessSecret = "xxxxx"
+options(httr_oauth_cache=TRUE)
+setup_twitter_oauth(consumer_key = consumerKey, consumer_secret = consumerSecret,
+                    access_token = accessToken, access_secret = accessSecret)
+
+##### é necesário a criação de um app na versão da API v1.1 (um standalone app)
+
+token <- create_token(
+        app = "xxxxx",
+        consumer_key = "xxxx",
+        consumer_secret = "xxxx",
+        access_token = "xxxx",
+        access_secret = "xxxxx")
+
+#Aqui já se inicia a coleta, na minha pesquisa dividi de forma a coletar os dados mensalmente, como exemplo:
+#Outubro e Novembro - Coleta do fim do mês de outubro e o mês de novembro dos Tweets do Haddad
+
+#search_fullarchive é a função que permite pesquisar por tweets por mais de 30 dias 
+tweetn1h <- search_fullarchive(q = "from:Haddad_Fernando" , n = 200 , fromDate = 201710270000, toDate = 201711100000, env_name = "xxxx", safedir = NULL, parse = TRUE, token = token)
+tweetn2h <- search_fullarchive(q = "from:Haddad_Fernando" , n = 200 , fromDate = 201711100000, toDate = 201711200000, env_name = "xxxx", safedir = NULL, parse = TRUE, token = token)
+tweetn3h <- search_fullarchive(q = "from:Haddad_Fernando" , n = 200 , fromDate = 201711200000, toDate = 201711300000, env_name = "xxxx", safedir = NULL, parse = TRUE, token = token)
+
+#se o intuito é buscar tweets a partir de perfis específicos por um determinado tempo é só substituir os endpoints com as variáveis desejadas
+#from: colocar o perfil 
+#n: valor de tweets por request - indico iniciar com 100 --- esse ponto pode ser um grande problema na pesquisa pois a depender do número de tweets requeridos e da limitação pode ser entregue somente um valor parcial dos tweets
+#fromDate e toDate - determinaçã temporal
+#env_name: substituir pelo criado 
+
+
+#Após realizar a coleta precisamos unir todos os dados em um data frame único, o primeiro passo é listar os dados - a função ls vai retornar com os nomes de todos os objetos 
+
+ls()
+
+#Para criar o dataframe com todos os dados usamos a função rbind
+
+HaddadTweets <- rbind(tweetn1h, tweetn2h, tweetn3h)
+
+#Tranforma o dataframe em um .csv
+
+df <- data.frame(HaddadTweets)
+
+#Salvando o csv
+
+write_as_csv(HaddadTweets, 'HaddadTweetscsv', prepend_ids = TRUE, na = "", fileEncoding = "UTF-8")
